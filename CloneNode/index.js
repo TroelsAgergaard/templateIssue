@@ -3,14 +3,14 @@ const list = ['list1', 'list2', 'list3', 'list4',]
 const subList = ['sublist', 'sublist', 'sublist', 'sublist',]
 
 list.forEach(element => {
-    const outerTemplate = document.querySelector('.outerTemplate').content.cloneNode(true); // [1]
+    const outerTemplate = document.querySelector('.outerTemplate').content.cloneNode(true); // [2]
     const li = outerTemplate.querySelector('li');
     const ul = outerTemplate.querySelector('ul');
 
     li.prepend(document.createTextNode(element));
 
     subList.forEach(element => {
-        const innerTemplate = outerTemplate.querySelector('.innerTemplate').content.cloneNode(true);
+        const innerTemplate = document.querySelector('.innerTemplate').content.cloneNode(true); // [2]
         const li = innerTemplate.querySelector('li');true
         li.append(document.createTextNode(element));
         ul.appendChild(innerTemplate);
@@ -19,4 +19,4 @@ list.forEach(element => {
     document.querySelector('ul').appendChild(outerTemplate);
 });
 
-// [1] - After the first list is rendered in the document, it brings the 'innerTemplate' with it, which makes THAT innerTemplate the first tempalate to be found in HTML! By giving the templates classes, we ensure that it won't select the wrong one.
+// [2] - We moved 'innerTemplate' outside of 'outerTemplate' (note document.querySelector for both templates). This means it will NOT be copied multiple times. However, because we have more than one template, it makes sense to still give them a class OR id to identify them by.
