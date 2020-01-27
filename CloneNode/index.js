@@ -3,35 +3,20 @@ const list = ['list1', 'list2', 'list3', 'list4',]
 const subList = ['sublist', 'sublist', 'sublist', 'sublist',]
 
 list.forEach(element => {
-    const template = document.querySelector('template')
-    const outerTemplate = template.content.cloneNode(true)
-    const li = outerTemplate.querySelector('li')
-    const ul = outerTemplate.querySelector('ul')
-    li.textContent = element
+    const outerTemplate = document.querySelector('.outerTemplate').content.cloneNode(true); // [2]
+    const li = outerTemplate.querySelector('li');
+    const ul = outerTemplate.querySelector('ul');
 
-    console.log(outerTemplate)
-    
+    li.prepend(document.createTextNode(element));
+
     subList.forEach(element => {
-        const innerTemplate = outerTemplate.querySelector('template').content.cloneNode(true)
-        const li = innerTemplate.querySelector('li')
-        li.textContent = element
-        ul.appendChild(innerTemplate)
+        const innerTemplate = document.querySelector('.innerTemplate').content.cloneNode(true); // [2]
+        const li = innerTemplate.querySelector('li');true
+        li.append(document.createTextNode(element));
+        ul.appendChild(innerTemplate);
     })
-    
-    //sdocument.querySelector('ul').appendChild(outerTemplate)
-    document.querySelector('ul').appendChild(li).appendChild(ul)
+
+    document.querySelector('ul').appendChild(outerTemplate);
 });
 
-// ul #
-
-// template *
-//     li
-//     ul 
-
-// template
-//     li
-// /template
-
-// /template
-
-// append template* to ul#
+// [2] - We moved 'innerTemplate' outside of 'outerTemplate' (note document.querySelector for both templates). This means it will NOT be copied multiple times. However, because we have more than one template, it makes sense to still give them a class OR id to identify them by.
